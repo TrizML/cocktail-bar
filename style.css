@@ -1,131 +1,162 @@
 body {
-   background: black; 
-   color: goldenrod;
-   font-family: 'Limelight', cursive;
-   margin: 0;
-}
-
-header {
-    position: fixed;
-    top: 0px;
-    width: 100vw;
-    background-color: black;
-    text-align: center;
-    font-size: 30px;
-    background-image: linear-gradient(to top, rgba(255,0,0,0), rgba(247, 178, 4, 0.351));
-    margin: 0;
-    z-index: 10;
-}
-
-#main-container {
-    margin-top: 30vh;
-    margin-left: 5vw;
-}
-
-#cocktail-list {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    width: 80%;
-
-}
-
-.card {
-    width: fit-content;
-    margin: 10px;
-    padding: 10px;
-    font-size: 20px;
-    font-family: 'Amatic SC', cursive;
-    color: whitesmoke;
-    text-align: center;
-    border-top-style: solid;
-    border-right-style: dotted;
-    border-bottom-style: solid;
-    border-left-style: dotted;
-    border-width: 5px;
-    border-color: goldenrod;
-
-}
-
-.card img {
-    width: 200px;
-    height: auto;
-    filter: grayscale(100%);
-    transition: filter 1s linear 0s;
-    z-index: -10;
-    align-self: bottom;
-}
-
-img:hover {
-    filter: grayscale(0%);
-}
-
-h3:hover {
+    background: #1a1a1a; 
     color: goldenrod;
-}
-
-
-
-#spotlight {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    top: 0px;
-    left: 0px;
-    width: 100vw;
-    height: 100vh;
-    background-color:rgba(0,0,0,0.5);
-}
-
-#spotlight p {
-    color: black;
-}
-#spotlight-card {
-    background-image: linear-gradient(to bottom, rgb(255, 255, 255), rgba(247, 178, 4, 0.7));
-    width: 50vw;
-    border-radius: 50px;
-}
-
-#spotlight-card img {
-    width: 300px;
-}
-
-@media (max-width: 1200px){
-    #cocktail-list {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        width: 80%;
-    }
-  }
-
-@media (max-width: 900px){
-    #cocktail-list {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        width: 80%;
-    }
-  }
-
-@media (max-width: 600px){
-    #cocktail-list {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        width: 80%;
-    }
-    header {
-        font-size: 25px;
-    }
-  }
-
-@media (max-width: 200px){
-    #cocktail-list {
-        display: grid;
-        grid-template-columns: repeat(1, 1fr);
-        width: 80%;
-    }
-    header {
-        font-size: 25px;
-    }
-  }
+    font-family: 'Limelight', cursive;
+    margin: 0;
+ }
+ 
+ header {
+     position: fixed;
+     top: 0px;
+     width: 100%;
+     background-color: #1a1a1a;;
+     text-align: center;
+     font-size: 28px;
+     background-image: linear-gradient(to top, rgba(255, 0, 0, 0.029), rgba(247, 178, 4, 0.351));
+     margin: 0;
+     z-index: 10;
+ }
+ 
+ #main-container {
+     margin-top: 30vh;
+     margin-left: 5vw;
+ }
+ 
+ #cocktail-list {
+     display: grid;
+     grid-template-columns: repeat(5, 1fr);
+     width: 80%;
+ 
+ }
+ 
+ .card {
+     width: fit-content;
+     margin: 10px;
+     padding: 10px;
+     font-size: 20px;
+     font-family: 'Poiret One', cursive;
+     color: whitesmoke;
+     text-align: center;
+     border-top-style: solid;
+     border-right-style: dotted;
+     border-bottom-style: solid;
+     border-left-style: dotted;
+     border-width: 5px;
+     border-color: goldenrod;
+ 
+ }
+ 
+ .card img {
+     width: 200px;
+     height: auto;
+     filter: grayscale(100%);
+     transition: filter 1s linear 0s;
+     z-index: -10;
+     align-self: bottom;
+ }
+ 
+ img:hover {
+     filter: grayscale(0%);
+ }
+ 
+ h3:hover {
+     color: goldenrod;
+ }
+ 
+ 
+ #spotlight {
+     position: fixed;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     text-align: center;
+     top: 0px;
+     left: 0px;
+     width: 100vw;
+     height: 100vh;
+     background-color:rgba(0,0,0,0.5);
+ }
+ 
+ 
+ #spotlight-card {
+     background: #1a1a1a;
+     width: 50vw;
+     border-top-style: solid;
+     border-right-style: dotted;
+     border-bottom-style: solid;
+     border-left-style: dotted;
+     border-width: 5px;
+     border-color: goldenrod;
+     font-family: 'Poiret One', cursive;
+     color: whitesmoke;
+     font-size: 1.2rem;
+ }
+ 
+ #spotlight-card h1 {
+     text-align: center;
+     color: goldenrod;
+     font-family: 'Limelight', cursive;
+ 
+ }
+ 
+ #spotlight-card img {
+     width: 30%;
+     display: block;
+     margin: 20px;
+     float: left;
+     border-radius: 20px;
+ }
+ 
+ .ingredients {
+     display: flex;
+     text-align: left;    
+ }
+ 
+ 
+ #spotlight p {
+     display: flex;
+     color: whitesmoke;
+     text-align: left;
+     margin-right: 20px;
+ }
+ 
+ 
+ 
+ @media (max-width: 1200px){
+     #cocktail-list {
+         display: grid;
+         grid-template-columns: repeat(4, 1fr);
+         width: 80%;
+     }
+   }
+ 
+ @media (max-width: 900px){
+     #cocktail-list {
+         display: grid;
+         grid-template-columns: repeat(3, 1fr);
+         width: 80%;
+     }
+   }
+ 
+ @media (max-width: 600px){
+     #cocktail-list {
+         display: grid;
+         grid-template-columns: repeat(2, 1fr);
+         width: 80%;
+     }
+     header {
+         font-size: 25px;
+     }
+   }
+ 
+ @media (max-width: 200px){
+     #cocktail-list {
+         display: grid;
+         grid-template-columns: repeat(1, 1fr);
+         width: 80%;
+     }
+     header {
+         font-size: 25px;
+     }
+   }
   
