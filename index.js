@@ -1,138 +1,164 @@
-var apiResponse = {
-    "drinks": [
-       {
-          "strDrink": "3-Mile Long Island Iced Tea",
-          "strDrinkThumb": "https:\/\/www.thecocktaildb.com\/images\/media\/drink\/rrtssw1472668972.jpg",
-          "idDrink": "15300"
-        },
-        {
-          "strDrink": "69 Special",
-          "strDrinkThumb": "https:\/\/www.thecocktaildb.com\/images\/media\/drink\/vqyxqx1472669095.jpg",
-          "idDrink": "13940"
-        },
-        {
-          "strDrink": "A1",
-          "strDrinkThumb": "https:\/\/www.thecocktaildb.com\/images\/media\/drink\/2x8thr1504816928.jpg",
-          "idDrink": "17222"
-        },
-        {
-          "strDrink": "Abbey Cocktail",
-          "strDrinkThumb": "https:\/\/www.thecocktaildb.com\/images\/media\/drink\/quyyuw1472811568.jpg",
-          "idDrink": "17834"
-        },
-        {
-          "strDrink": "Abbey Martini",
-          "strDrinkThumb": "https:\/\/www.thecocktaildb.com\/images\/media\/drink\/2mcozt1504817403.jpg",
-          "idDrink": "17223"
-        },
-        {
-          "strDrink": "Ace",
-          "strDrinkThumb": "https:\/\/www.thecocktaildb.com\/images\/media\/drink\/l3cd7f1504818306.jpg",
-          "idDrink": "17225"
-        },
-        {
-          "strDrink": "Adam & Eve",
-          "strDrinkThumb": "https:\/\/www.thecocktaildb.com\/images\/media\/drink\/vfeumw1504819077.jpg",
-          "idDrink": "17226"
-        },
-        {
-          "strDrink": "Addison",
-          "strDrinkThumb": "https:\/\/www.thecocktaildb.com\/images\/media\/drink\/yzva7x1504820300.jpg",
-          "idDrink": "17228"
-        }
-    ]
- };
-// References we are going to use document.createElement and element.classList 
 
-function createCocktailCard (name, imageURL, id){
-    var cocktailCard = document.createElement("div");
-    cocktailCard.classList.add("card");
+function createCocktailCard (name,imageURL,id){
 
-    var h3 = document.createElement("h3");
+    var card = document.createElement ('div');
+    card.classList.add ("card");
+
+    var h3 = document.createElement ('h3');
     h3.textContent = name;
-    cocktailCard.appendChild(h3);
+    card.appendChild(h3);
+
+    var img = document.createElement ('img');
+    img.src = imageURL;
+    img.alt = "Photo of the cocktail named " + name
+    card.appendChild(img);
+
+    card.addEventListener("click", function (){
+        var spotlight = createCocktailSpotlight(name, imageURL, id);
+        document.body.appendChild (spotlight);
+    });
+    
+    return card;
+};
+
+function createCocktailSpotlight (name, imageURL, id) {
+    var spotlight = document.createElement ("div");
+    spotlight.id = "spotlight";
+
+    var spotlightCard = document.createElement ("div");
+    spotlightCard.id = "spotlight-card";
+
+    var h1 = document.createElement ("h1");
+    h1.textContent = name;
+    spotlightCard.appendChild(h1);
 
     var img = document.createElement("img");
     img.src = imageURL;
-    cocktailCard.appendChild(img);
+    spotlightCard.appendChild(img);
 
-    cocktailCard.addEventListener ('click', function (event) {
-        var spotlight = createCocktailSpotlight (name, imageURL, id);
-        document.body.appendChild (spotlight);
-     });
+    var p = document.createElement("p");
+    p.textContent = "Instructions will go here ...";
+    spotlightCard.appendChild(p);
 
-    return cocktailCard;
+    spotlight.appendChild(spotlightCard);
 
-};
+    var promise = fetchJSON("https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + id);
 
+    promise.then(function (apiResponse) {
+        var drink = apiResponse.drinks[0];
 
-// We don't want to add the cocktail cards directly to the body, instead we want to create a container with a list element inside. 
-// USE: document.querySelector
-var cocktailList = document.querySelector ("#cocktail-list");
+        var instructions = drink.strInstructions;
+        p.textContent = instructions;
+    });
 
-// Add a fake apiResponse at the beginning of your index.js file.
-// Now we want to get the drinks from the response and loop over them
-
-var drinks = apiResponse.drinks;
-
-for (let i = 0; i < drinks.length; i++){
-    var drink = drinks [i];
-    var name = drink.strDrink;
-    var imageURL = drink.strDrinkThumb;
-    var id = drink.idDrink;
-
-    var cocktailCard = createCocktailCard (name, imageURL, id);
-    cocktailList.appendChild(cocktailCard);
-};
-
-
-
-// Now instead of appending our one testCocktailCard let's append a cocktail card in every iteration of the loop.
-
-// Next we want to add a modal spotlight screen with more details about a cocktail, that gets shown when you click on a cocktail card.
-// USE addEventListener
-
-function createCocktailSpotlight (name, imageURL, id){
-
-    let spotlight = document.createElement("div");
-    spotlight.id = "spotlight";
-
-    let instructionsCard = document.createElement("div");
-    instructionsCard.id = "spotlight-card";
-
-    let h1 = document.createElement("h1");
-    h1.textContent = name;
-    instructionsCard.appendChild(h1);
-
-    let img = document.createElement("img");
-    img.src = imageURL;
-    instructionsCard.appendChild(img);
-
-    let instructions = document.createElement("p");
-    instructions.textContent = "Drink it!";
-    instructionsCard.appendChild(instructions);
-
-    spotlight.appendChild(instructionsCard);
-
-    spotlight.addEventListener('click', function (event) {
+    spotlight.addEventListener("click", function (){
         spotlight.remove();
-     });
+    });
 
     return spotlight;
 };
 
+function fetchJSON(url){
+    return new Promise(function(resolve, reject){
+        // Constructor
+        var request = new XMLHttpRequest();
 
-// Call an API with XMLHttpRequest
+        // Configuration
+        request.open('GET', url);
 
-function addCocktailCard(apiResponse){
-    
-    var request = new XMLHttpRequest ();
-request.open("GET", "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=11007");
+        // Event Listener
+        request.addEventListener('load', function (){ // Response is ready
+            if (request.status != 200) {
+                reject();
+            }
 
-request.addEventListener("load", function(event){
-    var apiResponse = JSON.parse(request.response);
-});
+            // Parse the response
+            var response = JSON.parse(request.response);
 
-request.send();
+            // Fullfill the promise
+            resolve (response);
+        });
+
+        // Invoking the request
+        request.send();
+    });
 }
 
+var promise = fetchJSON('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Gin');
+
+promise.then(function(apiResponse){
+    // Get the Cocktail List
+    var cocktailList = document.querySelector ("#cocktail-list");
+
+    // Extract drinks from api Response
+    var drinks = apiResponse.drinks;
+
+    for (let i = 0; i < drinks.length; i++) {
+        let drink = drinks[i];
+        
+        let name = drink.strDrink;
+        let imageURL = drink.strDrinkThumb;
+        let id = drink.idDrink;
+
+        // Create a Cocktail Card
+        let cocktailCard = createCocktailCard(name, imageURL, id);
+
+        cocktailList.appendChild(cocktailCard);
+    }
+});
+
+var myPromise = new Promise(function(resolve, reject) {
+    reject(Error ("API not reachable"));
+    resolve ("Here's your promise");
+});
+
+myPromise.then(function(resolvedPromise){
+    console.log(resolvedPromise);
+}).catch (function(error){
+
+}); //--> This is equal to:
+    // myPromise.catch(function(error){
+    //    console.log (error);
+    // });
+
+/* WE DELETE ALL WHAT IS UNDER BECAUSE WE ALREADY INCORPORATED IT IN OUR PROMISE
+
+// Constructor
+const request = new XMLHttpRequest ();
+
+// Configuration
+request.open ('GET', 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Gin');
+
+// Event listener
+request.addEventListener('load', function (){
+    console.log ("Request is finished");
+    console.log (request.status);
+    console.log (request.response);
+
+    // Parse JSON response from API
+    var apiResponse = JSON.parse(request.response);
+
+    // Get the Cocktail List
+    var cocktailList = document.querySelector ("#cocktail-list");
+
+    // Extract drinks from api Response
+    var drinks = apiResponse.drinks;
+
+    for (let i = 0; i < drinks.length; i++) {
+        let drink = drinks[i];
+        
+        let name = drink.strDrink;
+        let imageURL = drink.strDrinkThumb;
+        let id = drink.idDrink;
+
+        // Create a Cocktail Card
+        let cocktailCard = createCocktailCard(name, imageURL, id);
+
+        cocktailList.appendChild(cocktailCard);
+    }
+});
+
+// Invoke
+request.send();
+console.log ("Request is sent");
+*/
