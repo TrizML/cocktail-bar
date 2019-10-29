@@ -40,6 +40,18 @@ function createCocktailSpotlight (name, imageURL, id) {
     p.textContent = "Instructions will go here ...";
     spotlightCard.appendChild(p);
 
+    var divIngredients = document.createElement("div");
+    divIngredients.classList.add ("ingredients");
+    spotlightCard.appendChild(divIngredients);
+
+    var titleIngredients = document.createElement("span");
+    titleIngredients.textContent = "Ingredients:";
+    divIngredients.appendChild(titleIngredients);
+
+    var listIngredients = document.createElement("ul");
+    divIngredients.appendChild(listIngredients);
+
+
     spotlight.appendChild(spotlightCard);
 
     var promise = fetchJSON("https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + id);
@@ -48,7 +60,22 @@ function createCocktailSpotlight (name, imageURL, id) {
         var drink = apiResponse.drinks[0];
 
         var instructions = drink.strInstructions;
+
+        for (let i = 1; i < 20; i++) {
+            if (drink["strIngredient" + i]) {
+                var ingredients = drink["strIngredient" + i];
+                var measure = drink["strMeasure" + i];
+
+                var liIngredients = document.createElement("li");
+                liIngredients.textContent = measure + " " + ingredients;
+                listIngredients.appendChild(liIngredients);
+            } else {
+                break;
+            }
+        }
+        
         p.textContent = instructions;
+        console.log(apiResponse);
     });
 
     spotlight.addEventListener("click", function (){
